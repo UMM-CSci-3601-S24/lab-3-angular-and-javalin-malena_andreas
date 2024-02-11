@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatCard, MatCardHeader, MatCardSubtitle } from '@angular/material/card';
 import { Todo } from './todo';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { map, switchMap, takeUntil } from 'rxjs';
+import { Subject, map, switchMap, takeUntil } from 'rxjs';
 import { TodoService } from './todo.service';
 
 
@@ -20,6 +20,7 @@ export class TodoComponent implements OnInit, OnDestroy{
   error: { help: string, httpResponse: string, message: string }
 
   // start of user code
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,

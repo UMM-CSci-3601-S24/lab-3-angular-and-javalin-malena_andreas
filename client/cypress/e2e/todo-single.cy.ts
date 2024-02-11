@@ -24,4 +24,9 @@ const page = new TodoByIDPage();
     it('Should have the correct owner', () => {
       page.getTodoOwner().should('have.text', 'Blanche');
     });
+
+    it('Should display the correct for another todo', () => {
+      page.navigateToByID("58895985c1849992336c219b");
+      page.getTodoOwner().should('have.text', 'Fry');
+    })
 });
