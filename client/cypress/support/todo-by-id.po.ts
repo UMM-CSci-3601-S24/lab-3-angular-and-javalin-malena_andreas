@@ -25,4 +25,5 @@ export class TodoByIDPage {
   getTodoOwner() {
     return cy.get('.todo-card-owner');
   }
+
 }

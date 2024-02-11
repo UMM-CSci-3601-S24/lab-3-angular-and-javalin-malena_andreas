@@ -4,9 +4,10 @@ export interface Todo {
   status: boolean;
   body: string;
   category: string;
+  //role:TodoRole;
 }
 
-// export type UserRole = 'admin' | 'editor' | 'viewer';
+ //export type TodoRole = 'admin' | 'editor' | 'viewer';
 /*
  "_id": "58895985a22c04e761776d54",
   "owner": "Blanche",
