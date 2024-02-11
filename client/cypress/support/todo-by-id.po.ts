@@ -17,4 +17,12 @@ export class TodoByIDPage {
   getPageTitle() {
     return cy.title();
   }
+  /**
+   * Gets the owner of the todo, which appears on the page
+   *
+   * @return the owner of the todo
+   */
+  getTodoOwner() {
+    return cy.get('.todo-card-owner');
+  }
 }

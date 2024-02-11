@@ -1,4 +1,4 @@
-import {TodoByIDPage} from "cypress/support/todo-by-id.po";
+import { TodoByIDPage } from "cypress/support/todo-by-id.po";
 
 const page = new TodoByIDPage();
 
@@ -19,5 +19,9 @@ const page = new TodoByIDPage();
 
     it('Should have the correct page title', () => {
       page.getPageTitle().should('eq', 'Todo');
+    });
+
+    it('Should have the correct owner', () => {
+      page.getTodoOwner().should('have.text', 'Blanche');
     });
 });
