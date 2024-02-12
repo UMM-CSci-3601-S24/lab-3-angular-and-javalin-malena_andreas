@@ -1,15 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatCard, MatCardHeader, MatCardSubtitle } from '@angular/material/card';
+//import { MatCard, MatCardHeader, MatCardSubtitle } from '@angular/material/card';
 import { Todo } from './todo';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Subject, map, switchMap, takeUntil } from 'rxjs';
+//import { Subject, map, switchMap, takeUntil } from 'rxjs';
 import { TodoService } from './todo.service';
+//import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject, map, switchMap, takeUntil } from 'rxjs';
+//import { RouterLink } from '@angular/router';
+//import { MatNavList, MatListSubheaderCssMatStyler, MatListItem, MatListItemAvatar, MatListItemTitle, MatListItemLine } from '@angular/material/list';
+import { MatCard } from '@angular/material/card';
 
 
 @Component({
   selector: 'app-todo',
   standalone: true,
-  imports: [MatCard, MatCardHeader, MatCardSubtitle],
+  imports: [MatCard],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss'
 })
@@ -19,12 +24,59 @@ export class TodoComponent implements OnInit, OnDestroy{
   todo: Todo;
   error: { help: string, httpResponse: string, message: string }
 
-  // start of user code
+  public serverFilteredTodos: Todo[];
+  public filteredTodos: Todo[];
+
+  public todoOwner: string;
+  public todoStatus: boolean;
+  public todoBody: string;
+  public todoCategory: string;
+
+  // start of todo code
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
     private todoService: TodoService) {}
+
+    getTodosFromServer() {
+      // A user-list-component is paying attention to userService.getUsers()
+      // (which is an Observable<User[]>).
+      // (For more on Observable, see: https://reactivex.io/documentation/observable.html)
+      this.todoService.getTodos({
+        // Filter the users by the role and age specified in the GUI
+        owner: this.todoOwner
+      }).pipe(
+        takeUntil(this.ngUnsubscribe)
+      ).subscribe({
+        // Next time we see a change in the Observable<User[]>,
+        // refer to that User[] as returnedUsers here and do the steps in the {}
+        next: (returnedTodos) => {
+          // First, update the array of serverFilteredUsers to be the User[] in the observable
+          this.serverFilteredTodos = returnedTodos;
+          // Then update the filters for our client-side filtering as described in this method
+          this.updateFilter();
+        },
+        // If we observe an error in that Observable, put that message in a snackbar so we can learn more
+        /*error: (err) => {
+          if (err.error instanceof ErrorEvent) {
+            this.errMsg = `Problem in the client – Error: ${err.error.message}`;
+          } else {
+            this.errMsg = `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`;
+          }
+        },*/
+      })
+    }
+
+    public updateFilter() {
+      this.filteredTodos = this.todoService.filterTodos(
+        this.serverFilteredTodos, { owner: this.todoOwner, category: this.todoCategory }
+      );
+    }
+
+
+
+
 
   ngOnInit(): void {
     // The `map`, `switchMap`, and `takeUntil` are all RXJS operators, and
