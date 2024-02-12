@@ -36,8 +36,8 @@
 
           <mat-form-field class="input-field">
             <mat-label>Age</mat-label>
-            <input matInput data-test="userAgeInput" type="number" placeholder="Filter by age"
-              min="0" max="200" [(ngModel)]="userAge" (input)="getTodosFromServer()">
+            <input matInput data-test="todoStatusInput" type="boolean" placeholder="Filter by status"
+              min="0" max="200" [(ngModel)]="todoStatus" (input)="getTodosFromServer()">
             <mat-hint>Filtered on server</mat-hint>
           </mat-form-field>
         </div>
