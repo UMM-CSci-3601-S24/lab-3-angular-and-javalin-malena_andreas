@@ -1,20 +1,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 //import { MatCard, MatCardHeader, MatCardSubtitle } from '@angular/material/card';
 import { Todo } from './todo';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 //import { Subject, map, switchMap, takeUntil } from 'rxjs';
 import { TodoService } from './todo.service';
 //import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, map, switchMap, takeUntil } from 'rxjs';
 //import { RouterLink } from '@angular/router';
 //import { MatNavList, MatListSubheaderCssMatStyler, MatListItem, MatListItemAvatar, MatListItemTitle, MatListItemLine } from '@angular/material/list';
-import { MatCard, MatCardHeader, MatCardSubtitle } from '@angular/material/card';
+import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { MatError, MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatNavList } from '@angular/material/list';
 
 
 @Component({
   selector: 'app-todo',
   standalone: true,
-  imports: [MatCard, MatCardHeader, MatCardSubtitle],
+  imports: [MatCard, MatCardHeader, MatCardSubtitle, MatCardTitle, MatCardContent, MatFormField, MatHint, MatLabel, MatInput, MatNavList, RouterLink, MatError],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss'
 })
@@ -37,7 +41,8 @@ export class TodoComponent implements OnInit, OnDestroy{
 
   constructor(
     private route: ActivatedRoute,
-    private todoService: TodoService) {}
+    private todoService: TodoService,
+    private snackBar: MatSnackBar) {}
 
     getTodosFromServer() {
       // A user-list-component is paying attention to userService.getUsers()
@@ -45,7 +50,8 @@ export class TodoComponent implements OnInit, OnDestroy{
       // (For more on Observable, see: https://reactivex.io/documentation/observable.html)
       this.todoService.getTodos({
         // Filter the users by the role and age specified in the GUI
-        owner: this.todoOwner
+        owner: this.todoOwner,
+        category: this.todoCategory
       }).pipe(
         takeUntil(this.ngUnsubscribe)
       ).subscribe({
@@ -77,8 +83,9 @@ export class TodoComponent implements OnInit, OnDestroy{
 
 
 
-
   ngOnInit(): void {
+
+    this.getTodosFromServer();
     // The `map`, `switchMap`, and `takeUntil` are all RXJS operators, and
     // The result from the map step is the `id` string for the requested
     // operator.
