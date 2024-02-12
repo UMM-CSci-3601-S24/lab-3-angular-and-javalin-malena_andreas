@@ -8,13 +8,13 @@ import { TodoService } from './todo.service';
 import { Subject, map, switchMap, takeUntil } from 'rxjs';
 //import { RouterLink } from '@angular/router';
 //import { MatNavList, MatListSubheaderCssMatStyler, MatListItem, MatListItemAvatar, MatListItemTitle, MatListItemLine } from '@angular/material/list';
-import { MatCard } from '@angular/material/card';
+import { MatCard, MatCardHeader, MatCardSubtitle } from '@angular/material/card';
 
 
 @Component({
   selector: 'app-todo',
   standalone: true,
-  imports: [MatCard],
+  imports: [MatCard, MatCardHeader, MatCardSubtitle],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss'
 })
