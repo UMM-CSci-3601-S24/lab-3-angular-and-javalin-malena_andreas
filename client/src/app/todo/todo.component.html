@@ -37,7 +37,7 @@
           <mat-form-field class="input-field">
             <mat-label>Age</mat-label>
             <input matInput data-test="userAgeInput" type="number" placeholder="Filter by age"
-              min="0" max="200" [(ngModel)]="userAge" (input)="getUsersFromServer()">
+              min="0" max="200" [(ngModel)]="userAge" (input)="getTodosFromServer()">
             <mat-hint>Filtered on server</mat-hint>
           </mat-form-field>
         </div>
@@ -51,7 +51,7 @@
       <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" >
         <!-- Switch between card and list view based on the viewType variable, set above in the mar-radio-group -->
         <div>
-          @switch (viewType) {
+          @switch ('list') {
             <!-- List view -->
             @case ('list') {
               <mat-card appearance="outlined">
@@ -78,7 +78,7 @@
           issues.
         </mat-error>
         <mat-error>
-          Error message: {{ this.errMsg }}
+          Error message: {{ this.error }}
         </mat-error>
         <mat-error>
           Please wait a bit and try again or start the server.
