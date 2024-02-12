@@ -13,12 +13,13 @@ import { MatError, MatFormField, MatHint, MatLabel } from '@angular/material/for
 import { MatInput } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatNavList } from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-todo',
   standalone: true,
-  imports: [MatCard, MatCardHeader, MatCardSubtitle, MatCardTitle, MatCardContent, MatFormField, MatHint, MatLabel, MatInput, MatNavList, RouterLink, MatError],
+  imports: [MatCard, MatCardHeader, MatCardSubtitle, MatCardTitle, MatCardContent, MatFormField, MatHint, MatLabel, MatInput, MatNavList, RouterLink, MatError, FormsModule],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss'
 })
