@@ -8,7 +8,7 @@ import { TodoService } from './todo.service';
 import { Subject, map, switchMap, takeUntil } from 'rxjs';
 //import { RouterLink } from '@angular/router';
 //import { MatNavList, MatListSubheaderCssMatStyler, MatListItem, MatListItemAvatar, MatListItemTitle, MatListItemLine } from '@angular/material/list';
-import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
 import { MatError, MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-todo',
   standalone: true,
-  imports: [MatCard, MatCardHeader, MatCardSubtitle, MatCardTitle, MatCardContent, MatFormField, MatHint, MatLabel, MatInput, MatNavList, RouterLink, MatError, FormsModule],
+  imports: [MatCard, MatCardHeader, MatCardSubtitle, MatCardTitle, MatCardContent, MatFormField, MatHint, MatLabel, MatInput, MatNavList, RouterLink, MatError, FormsModule, MatCardActions, FormsModule],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss'
 })
