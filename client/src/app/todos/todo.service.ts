@@ -74,10 +74,13 @@ export class TodoService {
     }
 
     if (filters.status) {
-      //filters.status = filters.status.toString();
       filteredTodos = filteredTodos.filter(todo => todo.status);
     }
 
     return filteredTodos;
+  }
+
+  sortTodos(serverFilteredTodos: Todo[], todoSortBy: string): Todo[] {
+    throw new Error('Method not implemented');
   }
 }
