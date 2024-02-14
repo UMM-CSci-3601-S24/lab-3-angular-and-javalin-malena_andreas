@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Todo } from './todo';
 import { RouterLink } from '@angular/router';
 import { MatButton } from '@angular/material/button';
@@ -12,6 +12,7 @@ import { MatInput } from '@angular/material/input';
 import { MatRadioButton } from '@angular/material/radio';
 import { MatNavList } from '@angular/material/list';
 import { TodoCardComponent } from './todo-card.component';
+import { TodoProfileComponent } from './todo-profile.component';
 
 
 @Component({
@@ -20,11 +21,9 @@ import { TodoCardComponent } from './todo-card.component';
   styleUrls: ['./todo-list.component.scss'],
   providers: [],
   standalone: true,
-  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput, MatError, MatRadioButton, MatNavList, TodoCardComponent]
+  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput, MatError, MatRadioButton, MatNavList, TodoCardComponent, TodoProfileComponent]
 })
 export class TodoListComponent implements OnInit, OnDestroy {
-  @Input() todo: Todo;
-  @Input() simple?: boolean = false;
   public serverFilteredTodos: Todo[];
   public filteredTodos: Todo[];
 

@@ -1,13 +1,14 @@
 export interface Todo {
   _id: string;
   owner: string;
-  status: boolean;
+  status: TodoStatus;
   body: string;
-  category: string;
-  //role:TodoRole;
+  //category: string;
+  category: TodoCategory;
 }
 
- //export type TodoRole = 'admin' | 'editor' | 'viewer';
+ export type TodoCategory = 'software design' | 'homework' | 'groceries' | 'video games';
+ export type TodoStatus = true | false;
 /*
  "_id": "58895985a22c04e761776d54",
   "owner": "Blanche",

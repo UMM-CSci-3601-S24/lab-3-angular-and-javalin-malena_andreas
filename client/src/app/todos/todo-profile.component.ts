@@ -7,12 +7,13 @@ import { Todo } from './todo';
 import { TodoService } from './todo.service';
 import { TodoListComponent } from './todo-list.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TodoCardComponent } from './todo-card.component';
 //import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-todo-profile',
   standalone: true,
-  imports: [TodoListComponent, MatCardModule],
+  imports: [TodoListComponent, MatCardModule, TodoCardComponent],
   templateUrl: './todo-profile.component.html',
   styleUrl: './todo-profile.component.scss'
 })

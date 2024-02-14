@@ -25,7 +25,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app/app-routing.module';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { UserService } from './app/users/user.service';
-import { TodoService } from './app/todo/todo.service';
+import { TodoService } from './app/todos/todo.service';
 
 const MATERIAL_MODULES = [
   MatListModule,
