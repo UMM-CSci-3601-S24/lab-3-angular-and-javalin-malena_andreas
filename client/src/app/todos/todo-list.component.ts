@@ -1,18 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Todo, TodoCategory, TodoStatus } from './todo';
-import { RouterLink } from '@angular/router';
-import { MatButton } from '@angular/material/button';
-import { MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions } from '@angular/material/card';
-import { TodoService } from './todo.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Todo, TodoCategory } from './todo';
+import { TodoService } from './todo.service';
 import { Subject, takeUntil } from 'rxjs';
-import { FormsModule } from '@angular/forms';
-import { MatError, MatFormField, MatHint, MatLabel, MatOption } from '@angular/material/select';
-import { MatInput } from '@angular/material/input';
-import { MatRadioButton } from '@angular/material/radio';
-import { MatNavList } from '@angular/material/list';
+import { RouterLink } from '@angular/router';
+import { MatNavList, MatListSubheaderCssMatStyler, MatListItem, MatListItemAvatar, MatListItemTitle, MatListItemLine } from '@angular/material/list';
 import { TodoCardComponent } from './todo-card.component';
-import { TodoProfileComponent } from './todo-profile.component';
+
+import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel, MatHint, MatError } from '@angular/material/form-field';
+import { MatCard, MatCardTitle, MatCardContent } from '@angular/material/card';
+
 
 
 @Component({
@@ -21,14 +23,14 @@ import { TodoProfileComponent } from './todo-profile.component';
   styleUrls: ['./todo-list.component.scss'],
   providers: [],
   standalone: true,
-  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput, MatError, MatRadioButton, MatNavList, TodoCardComponent, TodoProfileComponent]
+  imports: [MatCard, MatCardTitle, MatCardContent, MatFormField, MatLabel, MatInput, FormsModule, MatHint, MatSelect, MatOption, MatRadioGroup, MatRadioButton, TodoCardComponent, MatNavList, MatListSubheaderCssMatStyler, MatListItem, RouterLink, MatListItemAvatar, MatListItemTitle, MatListItemLine, MatError]
 })
 export class TodoListComponent implements OnInit, OnDestroy {
   public serverFilteredTodos: Todo[];
   public filteredTodos: Todo[];
 
   public todoOwner: string;
-  public todoStatus: TodoStatus;
+  public todoStatus: boolean;
   public todoCategory: TodoCategory;
   public todoBody: string;
   public viewType: 'card' | 'list' = 'card';
@@ -86,10 +88,10 @@ export class TodoListComponent implements OnInit, OnDestroy {
     this.filteredTodos = this.todoService.filterTodos(
       this.serverFilteredTodos, { body: this.todoBody, owner: this.todoOwner, status: this.todoStatus });
   }
-
-/*   public updateSorting() {
+/*
+   public updateSorting() {
     this.todos = this.todoService.sortTodos(this.serverFilteredTodos, this.todoSortBy)
-  } */
+  }*/
 
   /**
  * Starts an asynchronous operation to update the users list

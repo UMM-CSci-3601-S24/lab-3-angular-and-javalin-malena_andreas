@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Todo, TodoCategory, TodoStatus } from './todo';
+import { Todo, TodoCategory } from './todo';
 
 @Injectable ()//({
   //providedIn: 'root'
@@ -23,7 +23,7 @@ export class TodoService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getTodos(filters?: {owner?: string; status?: TodoStatus; body?: string; category?: TodoCategory}): Observable<Todo[]> {
+  getTodos(filters?: {owner?: string; status?: boolean; body?: string; category?: TodoCategory}): Observable<Todo[]> {
     // `HttpParams` is essentially just a map used to hold key-value
     // pairs that are then encoded as "?key1=value1&key2=value2&…" in
     // the URL when we make the call to `.get()` below.
@@ -33,7 +33,7 @@ export class TodoService {
         httpParams = httpParams.set('owner', filters.owner);
       }
       if (filters.status) {
-        httpParams = httpParams.set('status', filters.status.toString()
+        httpParams = httpParams.set('status', filters.status
         );
       }
       if (filters.body) {
@@ -60,7 +60,7 @@ export class TodoService {
     return this.httpClient.get<Todo>(this.todoUrl + '/' + id);
   }
 
-  filterTodos(todos: Todo[], filters: { owner?: string; body?: string; status?: TodoStatus }): Todo[] {
+  filterTodos(todos: Todo[], filters: { owner?: string; body?: string; status?: boolean }): Todo[] {
     let filteredTodos = todos;
 
     if (filters.owner) {

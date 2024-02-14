@@ -21,19 +21,17 @@
                   [(ngModel)]="todoBody" (input)="updateFilter()">
                 <mat-hint>Filtered on client</mat-hint>
               </mat-form-field>
-            </div>
 
             <mat-form-field class="input-field">
               <mat-label>Status</mat-label>
               <mat-select (selectionChange)="updateFilter()" [(ngModel)]="todoStatus" data-test="todoStatusSelect">
                 <mat-option>--</mat-option>
-                <mat-option [value]= true>Complete</mat-option>
-                <mat-option [value]= false>Incomplete</mat-option>
+                <mat-option [value]= 'true'>Complete</mat-option>
+                <mat-option [value]= 'false'>Incomplete</mat-option>
               </mat-select>
               <mat-hint>Filtered on client</mat-hint>
             </mat-form-field>
 
-            <div class="flex-row gap-10 flex-wrap">
 
               <mat-form-field class="input-field">
                 <mat-label>Category</mat-label>
@@ -45,10 +43,8 @@
                 </mat-select>
                 <mat-hint>Filtered on server</mat-hint>
               </mat-form-field>
-            </div>
 
-            <br>
-          <div class="flex-row gap-10 flex-wrap">
+
             <label for="viewType">View type: </label>
             <mat-radio-group aria-label="View type" [(ngModel)]="viewType" data-test="viewTypeRadio">
               <mat-radio-button value="card">Card</mat-radio-button>
