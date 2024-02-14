@@ -11,6 +11,8 @@ import { MatError, MatFormField, MatHint, MatLabel, MatOption } from '@angular/m
 import { MatInput } from '@angular/material/input';
 import { MatRadioButton } from '@angular/material/radio';
 import { MatNavList } from '@angular/material/list';
+import { TodoCardComponent } from './todo-card.component';
+
 
 @Component({
   selector: 'app-todo-list',
@@ -18,7 +20,7 @@ import { MatNavList } from '@angular/material/list';
   styleUrls: ['./todo-list.component.scss'],
   providers: [],
   standalone: true,
-  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput, MatError, MatRadioButton, MatNavList]
+  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput, MatError, MatRadioButton, MatNavList, TodoCardComponent]
 })
 export class TodoListComponent implements OnInit, OnDestroy {
   @Input() todo: Todo;
@@ -30,7 +32,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   public todoStatus: boolean;
   public todoCategory: string;
   public todoBody: string;
-  //public viewType: 'list' | 'card' = 'list';
+  public viewType: 'card' | 'list' = 'card';
  // public todoSortBy: SortBy;
  // public limit: number;
 
