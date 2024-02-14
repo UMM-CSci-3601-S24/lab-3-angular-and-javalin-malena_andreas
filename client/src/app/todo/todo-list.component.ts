@@ -9,6 +9,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { MatError, MatFormField, MatHint, MatLabel, MatOption } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
+import { MatRadioButton } from '@angular/material/radio';
 
 @Component({
   selector: 'app-todo-list',
@@ -16,7 +17,7 @@ import { MatInput } from '@angular/material/input';
   styleUrls: ['./todo-list.component.scss'],
   providers: [],
   standalone: true,
-  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput, MatError]
+  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput, MatError, MatRadioButton]
 })
 export class TodoListComponent implements OnInit, OnDestroy {
   @Input() todo: Todo;
