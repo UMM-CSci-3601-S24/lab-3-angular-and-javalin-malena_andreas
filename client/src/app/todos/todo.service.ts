@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Todo } from './todo';
+import { Todo, TodoCategory, TodoStatus } from './todo';
 
 @Injectable ()//({
   //providedIn: 'root'
@@ -23,7 +23,7 @@ export class TodoService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getTodos(filters?: {owner?: string; status?: boolean; body?: string; category?: string}): Observable<Todo[]> {
+  getTodos(filters?: {owner?: string; status?: TodoStatus; body?: string; category?: TodoCategory}): Observable<Todo[]> {
     // `HttpParams` is essentially just a map used to hold key-value
     // pairs that are then encoded as "?key1=value1&key2=value2&…" in
     // the URL when we make the call to `.get()` below.
@@ -60,12 +60,22 @@ export class TodoService {
     return this.httpClient.get<Todo>(this.todoUrl + '/' + id);
   }
 
-  filterTodos(todos: Todo[], filters: { owner?: string; body?: string; status?: boolean }): Todo[] {
+  filterTodos(todos: Todo[], filters: { owner?: string; body?: string; status?: TodoStatus }): Todo[] {
     let filteredTodos = todos;
 
     if (filters.owner) {
       filters.owner = filters.owner.toLowerCase();
       filteredTodos = filteredTodos.filter(todo => todo.owner.toLowerCase().indexOf(filters.owner) !== -1);
+    }
+
+    if (filters.body) {
+      filters.body = filters.body.toLowerCase();
+      filteredTodos = filteredTodos.filter(todo => todo.body.toLowerCase().indexOf(filters.body) !== -1);
+    }
+
+    if (filters.status) {
+      //filters.status = filters.status.toString();
+      filteredTodos = filteredTodos.filter(todo => todo.status);
     }
 
     return filteredTodos;

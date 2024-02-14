@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Todo } from './todo';
+import { Todo, TodoCategory, TodoStatus } from './todo';
 import { RouterLink } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions } from '@angular/material/card';
@@ -16,7 +16,7 @@ import { TodoProfileComponent } from './todo-profile.component';
 
 
 @Component({
-  selector: 'app-todo-list',
+  selector: 'app-todo-list-component',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
   providers: [],
@@ -28,8 +28,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
   public filteredTodos: Todo[];
 
   public todoOwner: string;
-  public todoStatus: boolean;
-  public todoCategory: string;
+  public todoStatus: TodoStatus;
+  public todoCategory: TodoCategory;
   public todoBody: string;
   public viewType: 'card' | 'list' = 'card';
  // public todoSortBy: SortBy;
@@ -57,7 +57,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   getTodosFromServer(): void {
     this.todoService.getTodos({
       // Filter the users by category
-      owner: this.todoOwner
+      category: this.todoCategory
     }).pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
@@ -84,7 +84,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
 
   public updateFilter(): void {
     this.filteredTodos = this.todoService.filterTodos(
-      this.serverFilteredTodos, {  });
+      this.serverFilteredTodos, { body: this.todoBody, owner: this.todoOwner, status: this.todoStatus });
   }
 
 /*   public updateSorting() {
