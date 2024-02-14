@@ -3,11 +3,11 @@
     <mat-card-header>
       <mat-card-title class="todo-card-owner">{{ this.todo.owner }}</mat-card-title>
       <mat-card-subtitle class="todo-card-status">{{ this.todo.status }}</mat-card-subtitle>
-      <mat-card-subtitle class="todo-card-body">{{ this.todo.body }}</mat-card-subtitle>
+      <mat-card-subtitle class="todo-card-category">{{ this.todo.category }}</mat-card-subtitle>
     </mat-card-header>
     @if (!this.simple) {
       <mat-card-content>
-        <p>Category: <span class="todo-card-category">{{ this.todo.category }}</span></p>
+        <p>Body: <span class="todo-card-body">{{ this.todo.body }}</span></p>
       </mat-card-content>
     }
     @if (this.simple) {
