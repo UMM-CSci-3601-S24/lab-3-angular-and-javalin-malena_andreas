@@ -6,6 +6,8 @@ import { Subject, map, switchMap, takeUntil } from 'rxjs';
 import { Todo } from './todo';
 import { TodoService } from './todo.service';
 import { TodoListComponent } from './todo-list.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+//import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-todo-profile',
@@ -15,7 +17,6 @@ import { TodoListComponent } from './todo-list.component';
   styleUrl: './todo-profile.component.scss'
 })
 export class TodoProfileComponent implements OnInit, OnDestroy{
-
   todo: Todo;
   error: { help: string, httpResponse: string, message: string }
 
@@ -23,7 +24,8 @@ export class TodoProfileComponent implements OnInit, OnDestroy{
 
   constructor(
     private route: ActivatedRoute,
-    private todoService: TodoService) {}
+    private todoService: TodoService,
+    private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
@@ -31,7 +33,10 @@ export class TodoProfileComponent implements OnInit, OnDestroy{
       switchMap((id: string) => this.todoService.getTodoById(id)),
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
-      next: todo => this.todo = todo,
+      next: todo => {
+        this.todo = todo;
+        return todo;
+      },
       error: _err => {
         this.error = {
           help: 'Error fetching todo',

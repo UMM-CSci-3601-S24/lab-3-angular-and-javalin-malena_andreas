@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Todo } from './todo';
 import { RouterLink } from '@angular/router';
 import { MatButton } from '@angular/material/button';
@@ -7,7 +7,7 @@ import { TodoService } from './todo.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { MatFormField, MatHint, MatLabel, MatOption } from '@angular/material/select';
+import { MatError, MatFormField, MatHint, MatLabel, MatOption } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
 
 @Component({
@@ -16,11 +16,13 @@ import { MatInput } from '@angular/material/input';
   styleUrls: ['./todo-list.component.scss'],
   providers: [],
   standalone: true,
-  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput]
+  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput, MatError]
 })
-export class TodoListComponent {
+export class TodoListComponent implements OnInit, OnDestroy {
+  @Input() todo: Todo;
+  @Input() simple?: boolean = false;
   public serverFilteredTodos: Todo[];
-  public todos: Todo[];
+  public filteredTodos: Todo[];
 
   public todoOwner: string;
   public todoStatus: boolean;
@@ -49,17 +51,17 @@ export class TodoListComponent {
    * Get the todos from the server, filtered by the role and age specified
    * in the GUI.
    */
-  getTodosFromServer() {
+  getTodosFromServer(): void {
     this.todoService.getTodos({
       // Filter the users by category
-      category: this.todoCategory
+      owner: this.todoOwner
     }).pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
       next: (returnedTodos) => {
         this.serverFilteredTodos = returnedTodos;
         this.updateFilter();
-        this.serverFilteredTodos = this.todos;
+        //this.serverFilteredTodos = this.todos;
         //this.updateSorting();
       },
       error: (err) => {
@@ -71,10 +73,15 @@ export class TodoListComponent {
       },
     })
   }
-  public updateFilter() {
+  /*public updateFilter() {
     this.todos = this.todoService.filterTodos(
       this.serverFilteredTodos, { body: this.todoBody, owner: this.todoOwner, status: this.todoStatus}//, limit: this.limit }
     )
+  } */
+
+  public updateFilter(): void {
+    this.filteredTodos = this.todoService.filterTodos(
+      this.serverFilteredTodos, {  });
   }
 
 /*   public updateSorting() {
