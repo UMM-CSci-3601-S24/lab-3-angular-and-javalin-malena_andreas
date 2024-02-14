@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { MatError, MatFormField, MatHint, MatLabel, MatOption } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
 import { MatRadioButton } from '@angular/material/radio';
+import { MatNavList } from '@angular/material/list';
 
 @Component({
   selector: 'app-todo-list',
@@ -17,7 +18,7 @@ import { MatRadioButton } from '@angular/material/radio';
   styleUrls: ['./todo-list.component.scss'],
   providers: [],
   standalone: true,
-  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput, MatError, MatRadioButton]
+  imports: [MatFormField, MatOption, MatHint, MatLabel, FormsModule, MatCard, MatCardHeader, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, MatButton, RouterLink, MatInput, MatError, MatRadioButton, MatNavList]
 })
 export class TodoListComponent implements OnInit, OnDestroy {
   @Input() todo: Todo;
