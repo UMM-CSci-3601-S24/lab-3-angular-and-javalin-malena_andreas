@@ -125,9 +125,26 @@ describe('TodoService', () => {
           (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('status')
         );
 
+        //expect(req.request.method).toEqual('GET');
+
+        expect(req.request.params.get('status')).toBeFalsy();
+
+        req.flush(testTodos);
+      });
+
+      it('correctly calls api/todos with filter parameter \'category\'', () => {
+
+        todoService.getTodos({ category: 'software design' }).subscribe(
+          todos => expect(todos).toBe(testTodos)
+        );
+
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('category')
+        );
+
         expect(req.request.method).toEqual('GET');
 
-        expect(req.request.params.get('status')).toEqual('false');
+        expect(req.request.params.get('category')).toEqual('software design');
 
         req.flush(testTodos);
       });
@@ -135,18 +152,18 @@ describe('TodoService', () => {
 
       it('correctly calls api/todos with multiple filter parameters', () => {
 
-        todoService.getTodos({ status: false, category: 'software design' }).subscribe(
+        todoService.getTodos({ body: 'In sunt ex non tempor cillum commodo amet incididunt anim qui commodo quis. Cillum non labore ex sint esse.', category: 'software design' }).subscribe(
           todos => expect(todos).toBe(testTodos)
         );
 
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(todoService.todoUrl)
-            && request.params.has('status') && request.params.has('category')
+            && request.params.has('body') && request.params.has('category')
         );
 
         expect(req.request.method).toEqual('GET');
 
-        expect(req.request.params.get('status')).toEqual('false');
+        expect(req.request.params.get('body')).toEqual('In sunt ex non tempor cillum commodo amet incididunt anim qui commodo quis. Cillum non labore ex sint esse.');
         expect(req.request.params.get('category')).toEqual('software design');
 
         req.flush(testTodos);

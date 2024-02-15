@@ -74,7 +74,6 @@ export class TodoService {
     }
 
     if (filters.status) {
-      //filters.status = filters.status.toString();
       filteredTodos = filteredTodos.filter(todo => todo.status);
     }
 
