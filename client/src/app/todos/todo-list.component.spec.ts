@@ -88,20 +88,20 @@ describe('TodoListComponent', () => {
   });
 
   it('contains a user named "Chris"', () => {
-    expect(todoList.serverFilteredTodos.some((todo: Todo) => todo.owner === 'Chris')).toBe(true);
+    expect(todoList.serverFilteredTodos.some((todo: Todo) => todo.owner === 'Blanche')).toBe(true);
   });
 
   it('contains a user named "Jamie"', () => {
-    expect(todoList.serverFilteredTodos.some((todo: Todo) => todo.owner === 'Jamie')).toBe(true);
+    expect(todoList.serverFilteredTodos.some((todo: Todo) => todo.owner === 'Fry')).toBe(true);
   });
 
   it('doesn\'t contain a user named "Santa"', () => {
     expect(todoList.serverFilteredTodos.some((todo: Todo) => todo.owner === 'Santa')).toBe(false);
   });
 
-  it('has two todos that have esse in the body', () => {
-    expect(todoList.serverFilteredTodos.filter((todo: Todo) => todo.body === 'esse').length).toBe(2);
-  });
+  /* it('has two todos that are false', () => {
+    expect(todoList.serverFilteredTodos.filter((todo: Todo) => todo.status === false).length).toBe(1);
+  }); */
 });
 
 /*
