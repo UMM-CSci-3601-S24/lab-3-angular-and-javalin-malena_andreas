@@ -27,7 +27,8 @@ describe('UserCardComponent', () => {
     owner: "Blanche",
     status: false,
     body: "In sunt ex non tempor cillum commodo amet incididunt anim qui commodo quis. Cillum non labore ex sint esse.",
-    category: "software design"
+    category: "software design",
+    sortBy: "owner"
     };
     fixture.detectChanges();
   });
