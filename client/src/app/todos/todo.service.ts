@@ -74,8 +74,8 @@ export class TodoService {
       filteredTodos = filteredTodos.filter(todo => todo.body.toLowerCase().indexOf(filters.body) !== -1);
     }
 
-    if (filters.status) {
-      filteredTodos = filteredTodos.filter(todo => todo.status);
+    if (filters.status != undefined) {
+      filteredTodos = filteredTodos.filter(todo => todo.status == filters.status);
     }
 
     if (filters.limit) {
