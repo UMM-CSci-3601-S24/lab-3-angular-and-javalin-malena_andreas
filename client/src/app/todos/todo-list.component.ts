@@ -29,12 +29,25 @@ export class TodoListComponent implements OnInit, OnDestroy {
   public serverFilteredTodos: Todo[];
   public filteredTodos: Todo[];
 
+
   public todoOwner: string;
   public todoStatus: boolean;
   public todoCategory: TodoCategory;
   public todoBody: string;
   public viewType: 'card' | 'list' = 'card';
   public todoSortBy: SortBy;
+
+  public displayLimit: number = 100; //default number
+
+  public updateLimit(): void {
+    // Optionally, you can add validation here to ensure the input is a positive number
+    this.displayLimit = Math.max(this.displayLimit, 1); // Ensure at least 1 item is displayed
+
+    // Reapply filtering and sorting with the new limit
+    this.updateFilter();
+  }
+
+
  // public todoSortBy: SortBy;
  // public limit: number;
 
@@ -81,12 +94,14 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   public updateFilter(): void {
-    this.filteredTodos = this.todoService.filterTodos(
-      this.serverFilteredTodos, { body: this.todoBody, owner: this.todoOwner, status: this.todoStatus });
+    let filtered = this.todoService.filterTodos(
+    this.serverFilteredTodos, { body: this.todoBody, owner: this.todoOwner, status: this.todoStatus });
+    this.filteredTodos = filtered.slice(0, this.displayLimit);
   }
 
-   public updateSorting() {
-    this.filteredTodos = this.todoService.sortTodos(this.serverFilteredTodos, this.todoSortBy)
+  public updateSorting() {
+    this.filteredTodos = this.todoService.sortTodos(
+      this.serverFilteredTodos, this.todoSortBy)
   }
 
   /**
