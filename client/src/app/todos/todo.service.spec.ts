@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { TodoService } from './todo.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Todo } from './todo';
+import { SortBy, Todo } from './todo';
 
 describe('TodoService', () => {
 
@@ -115,7 +115,7 @@ describe('TodoService', () => {
         req.flush(testTodos);
       });
 
-      it('correctly calls api/todos with filter parameter \'status\'', () => {
+      it('correctly calls api/todos with filter parameter \'status\' (false)', () => {
         console.log("About to check status");
         todoService.getTodos({ status: false }).subscribe(
           todos => {
@@ -131,6 +131,25 @@ describe('TodoService', () => {
         expect(req.request.method).toEqual('GET');
 
         expect(req.request.params.get('status')).toEqual('false');
+
+        req.flush(testTodos);
+      });
+
+      it('correctly calls api/todos with filter parameter \'status\' (true)', () => {
+        todoService.getTodos({ status: true }).subscribe(
+          todos => {
+            console.log(todos);
+            expect(todos).toBe(testTodos);
+          }
+        );
+
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('status')
+        );
+
+        expect(req.request.method).toEqual('GET');
+
+        expect(req.request.params.get('status')).toEqual('true');
 
         req.flush(testTodos);
       });
@@ -171,7 +190,70 @@ describe('TodoService', () => {
 
         req.flush(testTodos);
       });
+
     });
+  });
+
+  describe('filterTodos()', () => {
+    it('can filter by owner', () => {
+      const todoOwner = 'Fry';
+      const filteredTodos = todoService.filterTodos(testTodos, { owner: todoOwner});
+      expect(filteredTodos.length).toBe(2);
+      filteredTodos.forEach(todo => {
+        expect(todo.owner).toBe(todoOwner);
+      });
+    });
+
+    it('can filter by body', () => {
+      const todoBody = 'laborum';
+      const filteredTodos = todoService.filterTodos(testTodos, { body: todoBody});
+      expect(filteredTodos.length).toBe(2);
+      filteredTodos.forEach(todo => {
+        expect(todo.body.indexOf(todoBody)).toBeGreaterThanOrEqual(0);
+      });
+    });
+
+    it('can filter by status (true)', () => {
+      const todoStatus = true;
+      const filteredTodos = todoService.filterTodos(testTodos, { status: todoStatus});
+      expect(filteredTodos.length).toBe(1);
+      filteredTodos.forEach(todo => {
+        expect(todo.status).toBe(todoStatus);
+      });
+    });
+
+    it('can limit the number of todos returned', () => {
+      const filteredTodos = todoService.filterTodos(testTodos, { limit: 1 });
+      expect(filteredTodos.length).toBe(1);
+    });
+
+    it('can limit the number of todos returned', () => {
+      const filteredTodos = todoService.filterTodos(testTodos, { limit: 8 });
+      expect(filteredTodos.length).toBe(3);
+    });
+
+  });
+
+  describe('sortTodos()', () => {
+    it('can sort by owner', () => {
+      const todoSortBy: SortBy = 'owner';
+      const sortedTodos = todoService.sortTodos(testTodos, todoSortBy);
+      expect(sortedTodos.length).toBe(3);
+      expect(sortedTodos[0].owner == 'Blanche');
+    });
+    it('can sort by status', () => {
+      const todoSortBy: SortBy = 'status';
+      const sortedTodos = todoService.sortTodos(testTodos, todoSortBy);
+      expect(sortedTodos.length).toBe(3);
+      expect(sortedTodos[0].status = false);
+    });
+    it('can sort by  category', () => {
+      const todoSortBy: SortBy = 'category';
+      const sortedTodos = todoService.sortTodos(testTodos, todoSortBy);
+      expect(sortedTodos.length).toBe(3);
+      expect(sortedTodos[0].category == "homework");
+    });
+
   });
 
   it('should be created', () => {
