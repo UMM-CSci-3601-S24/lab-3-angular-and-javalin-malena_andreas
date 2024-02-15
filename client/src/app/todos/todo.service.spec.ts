@@ -81,45 +81,57 @@ describe('TodoService', () => {
     });
 
     describe('Calling getTodos() with parameters correctly forms the HTTP request', () => {
-      /*
-       * We really don't care what `getUsers()` returns in the cases
-       * where the filtering is happening on the server. Since all the
-       * filtering is happening on the server, `getUsers()` is really
-       * just a "pass through" that returns whatever it receives, without
-       * any "post processing" or manipulation. So the tests in this
-       * `describe` block all confirm that the HTTP request is properly formed
-       * and sent out in the world, but don't _really_ care about
-       * what `getUsers()` returns as long as it's what the HTTP
-       * request returns.
-       *
-       * So in each of these tests, we'll keep it simple and have
-       * the (mocked) HTTP request return the entire list `testUsers`
-       * even though in "real life" we would expect the server to
-       * return return a filtered subset of the users.
-       */
-
       it('correctly calls api/todos with filter parameter \'owner\'', () => {
 
-        todoService.getTodos({ owner: 'Blanche'}).subscribe(
+        todoService.getTodos({ body: 'Ullamco irure laborum magna dolor non. Anim occaecat adipisicing cillum eu magna in.'}).subscribe(
           todos => expect(todos).toBe(testTodos)
         );
-
-        // Specify that (exactly) one request will be made to the specified URL with the age parameter.
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('owner')
         );
-
-        // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the age parameter was '25'
-        expect(req.request.params.get('owner')).toEqual('Blanche');
+        expect(req.request.params.get('body')).toEqual('Ullamco irure laborum magna dolor non. Anim occaecat adipisicing cillum eu magna in.');
+
 
         req.flush(testTodos);
       });
 
-      /*
-      it('correctly calls api/users with multiple filter parameters', () => {
+      it('correctly calls api/todos with filter parameter \'status\'', () => {
+
+        todoService.getTodos({ status: true}).subscribe(
+          todos => expect(todos).toBe(testTodos)
+        );
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('owner')
+        );
+        expect(req.request.method).toEqual('GET');
+
+        expect(req.request.params.get('status')).toEqual('true');
+
+
+        req.flush(testTodos);
+      });
+
+      it('correctly calls api/todos with filter parameter \'body\'', () => {
+
+        todoService.getTodos({ status: true}).subscribe(
+          todos => expect(todos).toBe(testTodos)
+        );
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('owner')
+        );
+        expect(req.request.method).toEqual('GET');
+
+        expect(req.request.params.get('status')).toEqual('true');
+
+
+        req.flush(testTodos);
+      });
+
+
+
+      it('correctly calls api/todos with multiple filter parameters', () => {
 
         todoService.getTodos({ status: false, category: 'software design' }).subscribe(
           todos => expect(todos).toBe(testTodos)
@@ -130,17 +142,13 @@ describe('TodoService', () => {
           (request) => request.url.startsWith(todoService.todoUrl)
             && request.params.has('status') && request.params.has('category')
         );
-
-        // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the role, company, and age parameters are correct
         expect(req.request.params.get('status')).toEqual('false');
         expect(req.request.params.get('category')).toEqual('software design');
 
         req.flush(testTodos);
       });
-      */
     });
   });
 
@@ -148,42 +156,3 @@ describe('TodoService', () => {
     expect(todoService).toBeTruthy();
   });
 });
-
-/*
-import { TestBed } from '@angular/core/testing';
-
-import { TodoService } from './todo.service';
-import { HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
-describe('TodoService', () => {
-  let service: TodoService;
-
-  // These are used to mock the HTTP requests so that we (a) don't have to
-  // have the server running and (b) we can check exactly which HTTP
-  // requests were made to ensure that we're making the correct requests.
-  let httpClient: HttpClient;
-  let httpTestingController: HttpTestingController;
-
-  beforeEach(() => {
-    // Set up the mock handling of the HTTP requests
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
-    });
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    // Construct an instance of the service with the mock
-    // HTTP client.
-    service = new TodoService(httpClient);
-  });
-
-  afterEach(() => {
-    // After every test, assert that there are no more pending requests.
-    httpTestingController.verify();
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
-*/
