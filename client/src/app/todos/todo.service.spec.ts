@@ -57,7 +57,7 @@ describe('TodoService', () => {
 
   describe('getTodos()', () => {
 
-    it('calls `api/users` when `getTodos()` is called with no parameters', () => {
+    it('calls `api/todos` when `getTodos()` is called with no parameters', () => {
       // Assert that the users we get from this call to getUsers()
       // should be our set of test users. Because we're subscribing
       // to the result of getUsers(), this won't actually get
@@ -104,43 +104,53 @@ describe('TodoService', () => {
           todos => expect(todos).toBe(testTodos)
         );
 
-        // Specify that (exactly) one request will be made to the specified URL with the age parameter.
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('owner')
         );
 
-        // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the age parameter was '25'
         expect(req.request.params.get('owner')).toEqual('Blanche');
 
         req.flush(testTodos);
       });
 
-      /*
-      it('correctly calls api/users with multiple filter parameters', () => {
+      it('correctly calls api/todos with filter parameter \'status\'', () => {
+
+        todoService.getTodos({ status: false }).subscribe(
+          todos => expect(todos).toBe(testTodos)
+        );
+
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('status')
+        );
+
+        expect(req.request.method).toEqual('GET');
+
+        expect(req.request.params.get('status')).toEqual('false');
+
+        req.flush(testTodos);
+      });
+
+
+      it('correctly calls api/todos with multiple filter parameters', () => {
 
         todoService.getTodos({ status: false, category: 'software design' }).subscribe(
           todos => expect(todos).toBe(testTodos)
         );
 
-        // Specify that (exactly) one request will be made to the specified URL with the role parameter.
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(todoService.todoUrl)
             && request.params.has('status') && request.params.has('category')
         );
 
-        // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the role, company, and age parameters are correct
         expect(req.request.params.get('status')).toEqual('false');
         expect(req.request.params.get('category')).toEqual('software design');
 
         req.flush(testTodos);
       });
-      */
     });
   });
 
