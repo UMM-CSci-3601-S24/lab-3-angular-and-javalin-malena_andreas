@@ -61,7 +61,7 @@ export class TodoService {
     return this.httpClient.get<Todo>(this.todoUrl + '/' + id);
   }
 
-  filterTodos(todos: Todo[], filters: { owner?: string; body?: string; status?: boolean }): Todo[] {
+  filterTodos(todos: Todo[], filters: { owner?: string; body?: string; status?: boolean; limit?: number }): Todo[] {
     let filteredTodos = todos;
 
     if (filters.owner) {
@@ -76,6 +76,10 @@ export class TodoService {
 
     if (filters.status) {
       filteredTodos = filteredTodos.filter(todo => todo.status);
+    }
+
+    if (filters.limit) {
+      filteredTodos = filteredTodos.slice(0, filters.limit);
     }
 
     return filteredTodos;
