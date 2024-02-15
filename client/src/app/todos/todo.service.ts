@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Todo, TodoCategory } from './todo';
+import { SortBy, Todo, TodoCategory } from './todo';
 
 @Injectable ()//({
   //providedIn: 'root'
@@ -80,7 +80,15 @@ export class TodoService {
     return filteredTodos;
   }
 
-  sortTodos(serverFilteredTodos: Todo[], todoSortBy: string): Todo[] {
-    throw new Error('Method not implemented');
+  sortTodos(serverFilteredTodos: Todo[], todoSortBy: SortBy): Todo[] {
+    return serverFilteredTodos.sort((a: Todo, b: Todo) => {
+      if (a[todoSortBy] < b[todoSortBy]) {
+        return -1;
+      }
+      if (a[todoSortBy] > b[todoSortBy]) {
+        return 1;
+      }
+      return 0;
+    });
   }
 }

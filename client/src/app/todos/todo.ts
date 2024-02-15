@@ -4,7 +4,7 @@ export interface Todo {
   status: boolean;
   body: string;
   category: TodoCategory;
-  sort: SortBy;
+  //sort: SortBy;
 }
 
  export type TodoCategory = 'software design' | 'homework' | 'groceries' | 'video games';

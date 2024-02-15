@@ -50,6 +50,18 @@
               <mat-radio-button value="card">Card</mat-radio-button>
               <mat-radio-button value="list">List</mat-radio-button>
             </mat-radio-group>
+
+            <mat-form-field class="input-field">
+              <mat-label>Sort by</mat-label>
+              <mat-select (selectionChange)="updateSorting()" [(ngModel)]="todoSortBy" data-test="todoSortSelect">
+                <mat-option value="_id">ID</mat-option>
+                <mat-option value="owner">Owner</mat-option>
+                <mat-option value="status">Status</mat-option>
+                <mat-option value="category">Category</mat-option>
+              </mat-select>
+              <mat-hint>Sorted on client</mat-hint>
+            </mat-form-field>
+
           </div>
 
             </mat-card-content>
