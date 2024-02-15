@@ -116,18 +116,21 @@ describe('TodoService', () => {
       });
 
       it('correctly calls api/todos with filter parameter \'status\'', () => {
-
+        console.log("About to check status");
         todoService.getTodos({ status: false }).subscribe(
-          todos => expect(todos).toBe(testTodos)
+          todos => {
+            console.log(todos);
+            expect(todos).toBe(testTodos);
+          }
         );
 
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('status')
         );
 
-        //expect(req.request.method).toEqual('GET');
+        expect(req.request.method).toEqual('GET');
 
-        expect(req.request.params.get('status')).toBeFalsy();
+        expect(req.request.params.get('status')).toEqual('false');
 
         req.flush(testTodos);
       });
@@ -195,6 +198,7 @@ describe('TodoService', () => {
   beforeEach(() => {
     // Set up the mock handling of the HTTP requests
     TestBed.configureTestingModule({
+
       imports: [HttpClientTestingModule]
     });
     httpClient = TestBed.inject(HttpClient);
