@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Todo, TodoCategory } from './todo';
+import { SortBy, Todo, TodoCategory } from './todo';
 import { TodoService } from './todo.service';
 import { Subject, takeUntil } from 'rxjs';
 import { RouterLink } from '@angular/router';
@@ -34,7 +34,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   public todoCategory: TodoCategory;
   public todoBody: string;
   public viewType: 'card' | 'list' = 'card';
- // public todoSortBy: SortBy;
+  public todoSortBy: SortBy;
  // public limit: number;
 
   errMsg = '';
@@ -66,8 +66,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
       next: (returnedTodos) => {
         this.serverFilteredTodos = returnedTodos;
         this.updateFilter();
-        //this.serverFilteredTodos = this.todos;
-        //this.updateSorting();
+        this.serverFilteredTodos = this.filteredTodos;
+        this.updateSorting();
       },
       error: (err) => {
         if (err.error instanceof ErrorEvent) {
@@ -78,20 +78,15 @@ export class TodoListComponent implements OnInit, OnDestroy {
       },
     })
   }
-  /*public updateFilter() {
-    this.todos = this.todoService.filterTodos(
-      this.serverFilteredTodos, { body: this.todoBody, owner: this.todoOwner, status: this.todoStatus}//, limit: this.limit }
-    )
-  } */
 
   public updateFilter(): void {
     this.filteredTodos = this.todoService.filterTodos(
       this.serverFilteredTodos, { body: this.todoBody, owner: this.todoOwner, status: this.todoStatus });
   }
-/*
+
    public updateSorting() {
-    this.todos = this.todoService.sortTodos(this.serverFilteredTodos, this.todoSortBy)
-  }*/
+    this.filteredTodos = this.todoService.sortTodos(this.serverFilteredTodos, this.todoSortBy)
+  }
 
   /**
  * Starts an asynchronous operation to update the users list

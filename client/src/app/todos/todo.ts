@@ -4,10 +4,11 @@ export interface Todo {
   status: boolean;
   body: string;
   category: TodoCategory;
+  sortBy: SortBy
 }
 
  export type TodoCategory = 'software design' | 'homework' | 'groceries' | 'video games';
- //export type TodoStatus = 'true' | 'false';
+ export type SortBy = 'owner' | 'category' | 'status';
 /*
  "_id": "58895985a22c04e761776d54",
   "owner": "Blanche",

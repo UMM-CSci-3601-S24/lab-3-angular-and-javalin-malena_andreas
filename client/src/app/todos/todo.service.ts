@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Todo, TodoCategory } from './todo';
+import { SortBy, Todo, TodoCategory } from './todo';
 
 @Injectable ()//({
   //providedIn: 'root'
@@ -79,5 +79,19 @@ export class TodoService {
     }
 
     return filteredTodos;
+  }
+
+  sortTodos(todos: Todo[], sortBy?: SortBy) {
+    const sortedTodos = todos;
+    if(sortBy === 'owner') {
+      sortedTodos.sort((todo1, todo2) => todo1.owner.localeCompare(todo2.owner))
+    }
+    else if(sortBy === 'category'){
+      sortedTodos.sort((todo1, todo2) => todo1.category.localeCompare(todo2.category))
+    }
+    else if(sortBy === 'status'){
+      sortedTodos.sort((todo1, todo2) => todo1.status.toString().localeCompare(todo2.status.toString()))
+    }
+    return sortedTodos;
   }
 }
