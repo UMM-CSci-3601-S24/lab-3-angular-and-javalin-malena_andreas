@@ -4,7 +4,7 @@ import { TodoCardComponent } from './todo-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 
-describe('UserCardComponent', () => {
+describe('TodoCardComponent', () => {
   let component: TodoCardComponent;
   let fixture: ComponentFixture<TodoCardComponent>;
 
