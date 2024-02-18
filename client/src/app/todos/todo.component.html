@@ -1,0 +1,113 @@
+<!--<mat-card appearance="outlined" class="user-card">
+  <mat-card-header>
+    <mat-card-subtitle class="todo-card-owner">{{ this.todo.owner }}</mat-card-subtitle>
+  </mat-card-header>
+  <p>{{this.todo.owner}}</p>
+</mat-card>
+-->
+
+<!--
+<div class="flex-row">
+  <div class="flex-1">
+    @if (todo) {
+      <app-todo-card [todo]="this.todo"></app-todo-card>
+    } @else if (error) {
+      <mat-card class="error-card">
+        <mat-card-content>
+          <h2>
+            {{ error.help }}
+          </h2>
+          <p>
+            {{ error.message }}
+          </p>
+          <p>
+            {{ error.httpResponse }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button color=primary mat-raised-button routerLink="/todos">Back to Todos List</button>
+        </mat-card-actions>
+      </mat-card>
+    } @else {
+      <mat-card>
+        <mat-card-content>
+          <p>Loading User Profile data...</p>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</div>
+-->
+<!--
+<div class="flex-row">
+  <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10">
+
+    <mat-card appearance="outlined" class="search-card">
+      <mat-card-title class="todo-title">Todos</mat-card-title>
+      <mat-card-content class="flex-col" >
+
+        <div class="flex-row gap-10 flex-wrap">
+          <mat-form-field class="input-field">
+            <mat-label>Owner</mat-label>
+            <input matInput data-test="todoOwnerInput" placeholder="Filter by owner"
+              [(ngModel)]= "todoOwner" (input)="updateFilter()">
+            <mat-hint>Filtered on client</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="input-field">
+            <mat-label>Category</mat-label>
+            <input matInput data-test="todoCategoryInput" placeholder="Filter by category"
+              [(ngModel)]="todoCategory" (input)="updateFilter()">
+            <mat-hint>Filtered on client</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="flex-row gap-10 flex-wrap">
+
+          <mat-form-field class="input-field">
+            <mat-label>Status</mat-label>
+            <input matInput data-test="todoStatusInput" type="boolean" placeholder="Filter by status"
+              [(ngModel)]="todoStatus" (input)="getTodosFromServer()">
+            <mat-hint>Filtered on server</mat-hint>
+          </mat-form-field>
+        </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="flex-row">
+    @if (serverFilteredTodos) {
+      <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" >
+        <div>
+              <mat-card appearance="outlined">
+                <mat-card-content>
+                  <mat-nav-list class="todo-nav-list">
+                    <h3 mat-subheader>Todos</h3>
+                    @for (todo of this.filteredTodos; track todo._id) {
+                      <a mat-list-item [routerLink]="['/todos', todo._id]" class="todo-list-item">
+                        <span matListItemTitle mat-line class="todo-list-owner"> {{todo.owner}} </span>
+                        <span matListItemLine class="todo-list-category"> {{todo.category}} </span>
+                      </a>
+                    }
+                  </mat-nav-list>
+                </mat-card-content>
+              </mat-card>
+         </div>
+      </div>
+    } @else {
+      <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" class="todo-error">
+        <mat-error>
+          There was a problem loading the todos. Possibly the server is down or perhaps there are network
+          issues.
+        </mat-error>
+        <mat-error>
+          Error message: {{ this.error }}
+        </mat-error>
+        <mat-error>
+          Please wait a bit and try again or start the server.
+        </mat-error>
+      </div>
+    }
+  </div>
+-->
