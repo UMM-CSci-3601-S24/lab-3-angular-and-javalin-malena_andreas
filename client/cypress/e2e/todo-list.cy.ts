@@ -17,7 +17,7 @@ describe('Todo list',() => {
   });
 
   it('Should type something in the owner filter and check that it returned correct elements', () => {
-    cy.get('[data-test=userOwnerInput]').type('Fry');
+    cy.get('[data-test=todoOwnerInput]').type('Fry');
 
     page.getTodoCards().each($card => {
       cy.wrap($card).find('.todo-card-owner').should('have.text', 'Fry');
