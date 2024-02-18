@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { TodoService } from './todo.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Todo } from './todo';
+import { SortBy, Todo } from './todo';
 
 describe('TodoService', () => {
 
@@ -57,7 +57,7 @@ describe('TodoService', () => {
 
   describe('getTodos()', () => {
 
-    it('calls `api/users` when `getTodos()` is called with no parameters', () => {
+    it('calls `api/todos` when `getTodos()` is called with no parameters', () => {
       // Assert that the users we get from this call to getUsers()
       // should be our set of test users. Because we're subscribing
       // to the result of getUsers(), this won't actually get
@@ -104,44 +104,156 @@ describe('TodoService', () => {
           todos => expect(todos).toBe(testTodos)
         );
 
-        // Specify that (exactly) one request will be made to the specified URL with the age parameter.
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('owner')
         );
 
-        // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the age parameter was '25'
         expect(req.request.params.get('owner')).toEqual('Blanche');
 
         req.flush(testTodos);
       });
 
-      /*
-      it('correctly calls api/users with multiple filter parameters', () => {
+      it('correctly calls api/todos with filter parameter \'status\' (false)', () => {
+        console.log("About to check status");
+        todoService.getTodos({ status: false }).subscribe(
+          todos => {
+            console.log(todos);
+            expect(todos).toBe(testTodos);
+          }
+        );
 
-        todoService.getTodos({ status: false, category: 'software design' }).subscribe(
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('status')
+        );
+
+        expect(req.request.method).toEqual('GET');
+
+        expect(req.request.params.get('status')).toEqual('false');
+
+        req.flush(testTodos);
+      });
+
+      it('correctly calls api/todos with filter parameter \'status\' (true)', () => {
+        todoService.getTodos({ status: true }).subscribe(
+          todos => {
+            console.log(todos);
+            expect(todos).toBe(testTodos);
+          }
+        );
+
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('status')
+        );
+
+        expect(req.request.method).toEqual('GET');
+
+        expect(req.request.params.get('status')).toEqual('true');
+
+        req.flush(testTodos);
+      });
+
+      it('correctly calls api/todos with filter parameter \'category\'', () => {
+
+        todoService.getTodos({ category: 'software design' }).subscribe(
           todos => expect(todos).toBe(testTodos)
         );
 
-        // Specify that (exactly) one request will be made to the specified URL with the role parameter.
         const req = httpTestingController.expectOne(
-          (request) => request.url.startsWith(todoService.todoUrl)
-            && request.params.has('status') && request.params.has('category')
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('category')
         );
 
-        // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the role, company, and age parameters are correct
-        expect(req.request.params.get('status')).toEqual('false');
         expect(req.request.params.get('category')).toEqual('software design');
 
         req.flush(testTodos);
       });
-      */
+
+
+      it('correctly calls api/todos with multiple filter parameters', () => {
+
+        todoService.getTodos({ body: 'In sunt ex non tempor cillum commodo amet incididunt anim qui commodo quis. Cillum non labore ex sint esse.', category: 'software design' }).subscribe(
+          todos => expect(todos).toBe(testTodos)
+        );
+
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl)
+            && request.params.has('body') && request.params.has('category')
+        );
+
+        expect(req.request.method).toEqual('GET');
+
+        expect(req.request.params.get('body')).toEqual('In sunt ex non tempor cillum commodo amet incididunt anim qui commodo quis. Cillum non labore ex sint esse.');
+        expect(req.request.params.get('category')).toEqual('software design');
+
+        req.flush(testTodos);
+      });
+
     });
+  });
+
+  describe('filterTodos()', () => {
+    it('can filter by owner', () => {
+      const todoOwner = 'Fry';
+      const filteredTodos = todoService.filterTodos(testTodos, { owner: todoOwner});
+      expect(filteredTodos.length).toBe(2);
+      filteredTodos.forEach(todo => {
+        expect(todo.owner).toBe(todoOwner);
+      });
+    });
+
+    it('can filter by body', () => {
+      const todoBody = 'laborum';
+      const filteredTodos = todoService.filterTodos(testTodos, { body: todoBody});
+      expect(filteredTodos.length).toBe(2);
+      filteredTodos.forEach(todo => {
+        expect(todo.body.indexOf(todoBody)).toBeGreaterThanOrEqual(0);
+      });
+    });
+
+    it('can filter by status (true)', () => {
+      const todoStatus = true;
+      const filteredTodos = todoService.filterTodos(testTodos, { status: todoStatus});
+      expect(filteredTodos.length).toBe(1);
+      filteredTodos.forEach(todo => {
+        expect(todo.status).toBe(todoStatus);
+      });
+    });
+
+    it('can limit the number of todos returned', () => {
+      const filteredTodos = todoService.filterTodos(testTodos, { limit: 1 });
+      expect(filteredTodos.length).toBe(1);
+    });
+
+    it('can limit the number of todos returned', () => {
+      const filteredTodos = todoService.filterTodos(testTodos, { limit: 8 });
+      expect(filteredTodos.length).toBe(3);
+    });
+
+  });
+
+  describe('sortTodos()', () => {
+    it('can sort by owner', () => {
+      const todoSortBy: SortBy = 'owner';
+      const sortedTodos = todoService.sortTodos(testTodos, todoSortBy);
+      expect(sortedTodos.length).toBe(3);
+      expect(sortedTodos[0].owner == 'Blanche');
+    });
+    it('can sort by status', () => {
+      const todoSortBy: SortBy = 'status';
+      const sortedTodos = todoService.sortTodos(testTodos, todoSortBy);
+      expect(sortedTodos.length).toBe(3);
+      expect(sortedTodos[0].status = false);
+    });
+    it('can sort by  category', () => {
+      const todoSortBy: SortBy = 'category';
+      const sortedTodos = todoService.sortTodos(testTodos, todoSortBy);
+      expect(sortedTodos.length).toBe(3);
+      expect(sortedTodos[0].category == "homework");
+    });
+
   });
 
   it('should be created', () => {
@@ -168,6 +280,7 @@ describe('TodoService', () => {
   beforeEach(() => {
     // Set up the mock handling of the HTTP requests
     TestBed.configureTestingModule({
+
       imports: [HttpClientTestingModule]
     });
     httpClient = TestBed.inject(HttpClient);

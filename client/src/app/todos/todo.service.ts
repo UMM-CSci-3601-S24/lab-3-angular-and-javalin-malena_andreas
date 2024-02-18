@@ -32,9 +32,8 @@ export class TodoService {
       if (filters.owner) {
         httpParams = httpParams.set('owner', filters.owner);
       }
-      if (filters.status) {
-        httpParams = httpParams.set('status', filters.status
-        );
+      if (filters.status != undefined) {
+        httpParams = httpParams.set('status', filters.status);
       }
       if (filters.body) {
         httpParams = httpParams.set('body', filters.body);
@@ -43,6 +42,8 @@ export class TodoService {
         httpParams = httpParams.set('category', filters.category);
       }
     }
+    console.log(filters);
+    console.log(httpParams);
     // Send the HTTP GET request with the given URL and parameters.
     // That will return the desired `Observable<User[]>`.
     return this.httpClient.get<Todo[]>(this.todoUrl, {
@@ -73,8 +74,8 @@ export class TodoService {
       filteredTodos = filteredTodos.filter(todo => todo.body.toLowerCase().indexOf(filters.body) !== -1);
     }
 
-    if (filters.status) {
-      filteredTodos = filteredTodos.filter(todo => todo.status);
+    if (filters.status != undefined) {
+      filteredTodos = filteredTodos.filter(todo => todo.status == filters.status);
     }
 
     if (filters.limit) {
