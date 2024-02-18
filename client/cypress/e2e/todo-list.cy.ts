@@ -16,4 +16,17 @@ describe('Todo list',() => {
     page.getTodoTitle().should('have.text', 'Todos');
   });
 
+  it('Should type something in the owner filter and check that it returned correct elements', () => {
+    cy.get('[data-test=userOwnerInput]').type('Fry');
+
+    page.getTodoCards().each($card => {
+      cy.wrap($card).find('.todo-card-owner').should('have.text', 'Fry');
+    });
+
+    page.getTodoCards().find('.todo-card-owner').each($owner =>
+      expect($owner.text()).to.equal('Fry')
+    );
+
+});
+
 });
